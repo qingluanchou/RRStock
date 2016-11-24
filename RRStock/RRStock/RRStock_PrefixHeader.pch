@@ -1,0 +1,31 @@
+//
+//  RRStock_PrefixHeader.pch
+//  RRStock
+//
+//  Created by 曾文亮 on 16/11/24.
+//  Copyright © 2016年 liang. All rights reserved.
+//
+
+#ifndef RRStock_PrefixHeader_pch
+#define RRStock_PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#import "Masonry.h"
+#import "CustomLabel.h"
+#import "UIColor+Utils.h"
+
+#define WEAKSELF(weakSelf)  __weak __typeof(&*self)weakSelf = self;
+
+static NSString *const kGoTopNotificationName = @"goTop";//进入置顶命令
+static NSString *const kLeaveTopNotificationName = @"leaveTop";//离开置顶命令
+
+static NSString *const CanAcceptTouchNotificationName = @"canAcceptTouch";//可以接受触摸
+//屏幕宽度
+#define ScreenW [UIScreen mainScreen].bounds.size.width
+
+//屏幕高度
+#define ScreenH [UIScreen mainScreen].bounds.size.height
+
+#endif /* RRStock_PrefixHeader_pch */
