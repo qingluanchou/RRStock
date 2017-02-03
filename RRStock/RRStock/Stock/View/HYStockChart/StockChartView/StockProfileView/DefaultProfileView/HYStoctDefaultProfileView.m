@@ -32,7 +32,7 @@
 
 +(HYStoctDefaultProfileView *)profileView
 {
-    HYStoctDefaultProfileView *profileView = [[[NSBundle mainBundle] loadNibNamed:@"HYStoctDefaultProfileView" owner:nil options:nil] lastObject];
+    HYStoctDefaultProfileView *profileView = [[[NSBundle mainBundle] loadNibNamed:@"defaultLineLongPressView" owner:nil options:nil] lastObject];
     return profileView;
 }
 

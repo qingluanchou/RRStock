@@ -19,8 +19,9 @@
 /**
  *  需要绘制的成交量的位置模型数组
  */
-@property(nonatomic,strong) NSArray *needDrawKLineVolumePositionModels;
+//@property(nonatomic,strong) NSArray *needDrawKLineVolumePositionModels;
 
+@property (nonatomic,assign)CGPoint startPoint;
 
 
 @end
@@ -53,6 +54,10 @@
 //    CGContextStrokeRect(context, CGRectMake(0, 0, rect.size.width , rect.size.height));
     [self drawline:context startPoint:CGPointMake(0, 0) stopPoint:CGPointMake(rect.size.width, 0) color:[UIColor gridLineColor] lineWidth:HYStockChartTimeLineGridWidth];
     
+    [self drawline:context startPoint:CGPointMake(0, HYStockChartKLineBelowViewMinY) stopPoint:CGPointMake(rect.size.width, HYStockChartKLineBelowViewMinY) color:[UIColor colorWithWhite226] lineWidth:0.25];
+    
+//    [self drawline:context startPoint:CGPointMake(0, self.startPoint.y) stopPoint:CGPointMake(self.frame.size.width, self.startPoint.y) color:[UIColor gridLineColor] lineWidth:HYStockChartTimeLineGridWidth];
+    
     HYKLineVolume *kLineVolume = [[HYKLineVolume alloc] initWithContext:context];
     [self.needDrawKLineVolumePositionModels enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         HYKLineVolumePositionModel *volumePositionModel = (HYKLineVolumePositionModel *)obj;
@@ -79,6 +84,43 @@
 }
 
 
+#pragma mark 根据原始的x的位置获得精确的位置
+- (CGPoint)kLineBelowViewLongPressKLinePositionModel:(HYKLinePositionModel *)kLinePositionModel kLineModel:(HYKLineModel *)kLineModel
+{
+    CGFloat minY = HYStockChartKLineBelowViewMinY;
+    CGFloat maxY = HYStockChartKLineBelowViewMaxY;
+    HYKLineModel *firstModel = [self.needDrawKLineModels firstObject];
+    __block CGFloat minVolume = [firstModel volume];
+    __block CGFloat maxVolume = [firstModel volume];
+    [self.needDrawKLineModels enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        HYKLineModel *kLineModel = (HYKLineModel *)obj;
+        if (kLineModel.volume < minVolume) {
+            minVolume = kLineModel.volume;
+        }
+        if (kLineModel.volume > maxVolume) {
+            maxVolume = kLineModel.volume;
+        }
+    }];
+    CGFloat unitValue = (maxVolume - minVolume)/(maxY - minY);
+    
+    CGFloat xPosition = kLinePositionModel.highPoint.x;
+    CGFloat yPosition = ABS(maxY - ((kLineModel.volume - minVolume)/unitValue));
+    if (ABS(yPosition - HYStockChartKLineBelowViewMaxY) < 0.5) {
+        //这里写错了容易导致成交量很少的时候画图不准确，不应该是1，而应该是HYStockChartKLineBelowViewMaxY-1
+        yPosition = HYStockChartKLineBelowViewMaxY-1;
+    }
+    CGPoint startPoint = CGPointMake(xPosition, yPosition);
+    
+    self.startPoint = startPoint;
+    
+    [self setNeedsDisplay];
+    
+    return startPoint;
+}
+
+
+
+
 #pragma mark - 公有方法
 #pragma mark 绘制BelowView方法
 -(void)drawBelowView
@@ -96,7 +138,7 @@
 -(NSArray *)private_convertToKLinePositionModelWithKLineModels:(NSArray *)kLineModels
 {
     CGFloat minY = HYStockChartKLineBelowViewMinY;
-    CGFloat maxY = HYStockChartKLineBelowViewMaxY;
+    CGFloat maxY = HYStockChartKLineBelowViewMaxY ;
     HYKLineModel *firstModel = [kLineModels firstObject];
     __block CGFloat minVolume = [firstModel volume];
     __block CGFloat maxVolume = [firstModel volume];
@@ -115,7 +157,7 @@
         HYKLineModel *kLineModel = (HYKLineModel *)obj;
         HYKLinePositionModel *kLinePositionModel = self.needDrawKLinePositionModels[idx];
         CGFloat xPosition = kLinePositionModel.highPoint.x;
-        CGFloat yPosition = ABS(maxY - ((kLineModel.volume - minVolume)/unitValue));
+        CGFloat yPosition = ABS(maxY  - ((kLineModel.volume - minVolume)/unitValue));
         if (ABS(yPosition - HYStockChartKLineBelowViewMaxY) < 0.5) {
             //这里写错了容易导致成交量很少的时候画图不准确，不应该是1，而应该是HYStockChartKLineBelowViewMaxY-1
             yPosition = HYStockChartKLineBelowViewMaxY-1;

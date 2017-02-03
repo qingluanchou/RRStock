@@ -69,13 +69,13 @@
     _kLineModel = kLineModel;
     
     NSString *currencySymbol = [HYStockChartTool currencySymbol];
-    self.closePriceLabel.text = [NSString stringWithFormat:@"%@%.2f",currencySymbol,kLineModel.close];
+    self.closePriceLabel.text = [NSString stringWithFormat:@"%.2f",kLineModel.close];
     self.appliesLabel.text = [NSString stringWithFormat:@"%.2f%%",kLineModel.percentChangeFromOpen];
     UIColor *appliesLabelColor = kLineModel.percentChangeFromOpen > 0 ? [UIColor increaseColor] : [UIColor decreaseColor];
     self.appliesLabel.textColor = appliesLabelColor;
-    self.openPriceLabel.text = [NSString stringWithFormat:@"%@%.2f",currencySymbol,kLineModel.open];
-    self.maxPriceLabel.text = [NSString stringWithFormat:@"%@%.2f",currencySymbol,kLineModel.high];
-    self.minPriceLabel.text = [NSString stringWithFormat:@"%@%.2f",currencySymbol,kLineModel.low];
+    self.openPriceLabel.text = [NSString stringWithFormat:@"%.2f",kLineModel.open];
+    self.maxPriceLabel.text = [NSString stringWithFormat:@"%.2f",kLineModel.high];
+    self.minPriceLabel.text = [NSString stringWithFormat:@"%.2f",kLineModel.low];
 }
 
 

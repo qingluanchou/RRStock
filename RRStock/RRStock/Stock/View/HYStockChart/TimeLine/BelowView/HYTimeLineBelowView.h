@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HYTimeLineAboveView.h"
 #import "HYStockChartConstant.h"
+#import "YYTimeLineBelowMaskView.h"
 
 @class HYTimeLineModel;
 /************************分时线下面的view************************/
-@interface HYTimeLineBelowView : UIView
+@interface HYTimeLineBelowView : UIView <HYTimeLineAboveViewDelegate>
 
 @property(nonatomic,strong) NSArray *timeLineModels;
 
@@ -22,6 +24,11 @@
 
 //显示颜色数组
 @property(nonatomic,strong) NSArray *colorArray;
+
+@property (nonatomic,strong)YYTimeLineBelowMaskView *maskView;
+
+//选中的点和位置
+-(void)timeLineAboveViewLongPressLineModel:(HYTimeLineModel *)selectedModel selectPoint:(CGPoint)selectedPoint;
 
 /**
  *  画下面的view

@@ -38,7 +38,7 @@
 #pragma mark 涨的颜色
 +(UIColor *)increaseColor
 {
-    return [UIColor colorWithRGBHex:0xff5353];
+    return [UIColor colorWithRed:206/255.0 green:65/255.0 blue:51/255.0 alpha:1.0];
 }
 
 #pragma mark 153颜色
@@ -50,7 +50,7 @@
 #pragma mark 跌的颜色
 +(UIColor *)decreaseColor
 {
-    return [UIColor colorWithRGBHex:0x00b07c];
+    return [UIColor colorWithRed:37/255.0 green:174/255.0 blue:68/255.0 alpha:1.0];;
 }
 
 #pragma mark 主文字颜色

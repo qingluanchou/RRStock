@@ -85,10 +85,33 @@
         if (CGPointEqualToPoint(self.lastDrawDatePoint, CGPointZero) || drawDatePoint.x - self.lastDrawDatePoint.x > 100) {
             [dateStr drawAtPoint:drawDatePoint withAttributes:@{NSFontAttributeName:[UIFont f39Font],NSForegroundColorAttributeName:[UIColor assistTextColor]}];
             self.lastDrawDatePoint = drawDatePoint;
+            
+            CGPoint startPoint = CGPointMake(self.kLinePositionModel.highPoint.x, HYStockChartKLineAboveViewMinY);
+            CGPoint endPoint = CGPointMake(self.kLinePositionModel.highPoint.x, self.maxY);
+            [self drawline:context startPoint:startPoint stopPoint:endPoint color:[UIColor gridLineColor] lineWidth:0.25];
         }
+        
+        
+        
+        
     }
     
     return strokeColor;
+}
+
+#pragma mark - **************** 绘制线
+- (void)drawline:(CGContextRef)context
+      startPoint:(CGPoint)startPoint
+       stopPoint:(CGPoint)stopPoint
+           color:(UIColor *)color
+       lineWidth:(CGFloat)lineWitdth
+{
+    CGContextSetStrokeColorWithColor(context, color.CGColor);
+    CGContextSetLineWidth(context, lineWitdth);
+    CGContextBeginPath(context);
+    CGContextMoveToPoint(context, startPoint.x, startPoint.y);
+    CGContextAddLineToPoint(context, stopPoint.x,stopPoint.y);
+    CGContextStrokePath(context);
 }
 
 /**

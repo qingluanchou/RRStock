@@ -54,7 +54,7 @@ static CGFloat const HYStockChartSegmentIndicatorViewWidth = 40;
 {
     if (!_indicatorView) {
         _indicatorView = [UIView new];
-        _indicatorView.backgroundColor = [UIColor mainTextColor];
+        _indicatorView.backgroundColor = [UIColor timeLineLineColor];
         [self addSubview:_indicatorView];
         [_indicatorView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self.mas_bottom).offset(-HYStockChartSegmentIndicatorViewHeight);
@@ -126,7 +126,7 @@ static CGFloat const HYStockChartSegmentIndicatorViewWidth = 40;
 -(UIButton *)private_createButtonWithTitle:(NSString *)title tag:(NSInteger)tag
 {
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn setTitleColor:[UIColor mainTextColor] forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor colorWithWhite51] forState:UIControlStateNormal];
     btn.titleLabel.font = [UIFont f16Font];
     btn.tag = tag;
     [btn addTarget:self action:@selector(event_segmentButtonClicked:) forControlEvents:UIControlEventTouchUpInside];

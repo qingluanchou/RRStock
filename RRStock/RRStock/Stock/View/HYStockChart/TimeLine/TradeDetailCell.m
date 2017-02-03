@@ -48,6 +48,7 @@
     
     
     CustomLabel *currentPriceLabel = [CustomLabel setCustomLabelText:@"35.56" font:10 textColor:[UIColor whiteColor153]];
+    currentPriceLabel.textColor = [UIColor colorWithRed:0/255.0 green:145/255.0 blue:0/255.0 alpha:1.0];
     [self.contentView addSubview:currentPriceLabel];
     [currentPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(weakSelf.contentView);

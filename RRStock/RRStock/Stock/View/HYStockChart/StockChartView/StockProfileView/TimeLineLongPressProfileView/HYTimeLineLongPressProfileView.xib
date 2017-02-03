@@ -112,7 +112,7 @@
                 <outlet property="volumeLabel" destination="Vzf-yC-avJ" id="oHm-PH-At9"/>
                 <outlet property="volumeNameLabel" destination="yKY-Ah-fpM" id="Dlo-sV-sVo"/>
             </connections>
-            <point key="canvasLocation" x="415" y="183"/>
+            <point key="canvasLocation" x="374" y="185"/>
         </view>
     </objects>
 </document>

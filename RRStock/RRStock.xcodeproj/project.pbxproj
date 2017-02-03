@@ -114,6 +114,16 @@
 		E35E2F0F1DE6E8E900DF4DF7 /* UIColor+Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = E35E2F0E1DE6E8E900DF4DF7 /* UIColor+Utils.m */; };
 		E35E2F261DE7025600DF4DF7 /* test8.gif in Resources */ = {isa = PBXBuildFile; fileRef = E35E2F251DE7025600DF4DF7 /* test8.gif */; };
 		E35E2F281DE7026B00DF4DF7 /* test6.gif in Resources */ = {isa = PBXBuildFile; fileRef = E35E2F271DE7026B00DF4DF7 /* test6.gif */; };
+		E35EBC5F1E0508400047E04F /* TimeLineLongPressView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E35EBC5E1E0508400047E04F /* TimeLineLongPressView.xib */; };
+		E35EBC661E05138C0047E04F /* BrokenLineLongPressView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E35EBC631E05138C0047E04F /* BrokenLineLongPressView.xib */; };
+		E35EBC671E05138C0047E04F /* HYBrokenLineLongPressView.m in Sources */ = {isa = PBXBuildFile; fileRef = E35EBC651E05138C0047E04F /* HYBrokenLineLongPressView.m */; };
+		E35EBC6A1E0515620047E04F /* HYTimeLineLongPressView.m in Sources */ = {isa = PBXBuildFile; fileRef = E35EBC691E0515620047E04F /* HYTimeLineLongPressView.m */; };
+		E35EBC6C1E0519120047E04F /* kLineLongPressView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E35EBC6B1E0519120047E04F /* kLineLongPressView.xib */; };
+		E35EBC6F1E051DD70047E04F /* HYKLineLongPressView.m in Sources */ = {isa = PBXBuildFile; fileRef = E35EBC6E1E051DD70047E04F /* HYKLineLongPressView.m */; };
+		E35EBC711E0526DA0047E04F /* defaultLineLongPressView.xib in Resources */ = {isa = PBXBuildFile; fileRef = E35EBC701E0526DA0047E04F /* defaultLineLongPressView.xib */; };
+		E35EBC741E05309C0047E04F /* YYTimeLineBelowMaskView.m in Sources */ = {isa = PBXBuildFile; fileRef = E35EBC731E05309C0047E04F /* YYTimeLineBelowMaskView.m */; };
+		E35EBC781E057F450047E04F /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = E35EBC771E057F450047E04F /* UIView+Extension.m */; };
+		E35EBC7B1E0590ED0047E04F /* HYKLineAboveAxisMaskView.m in Sources */ = {isa = PBXBuildFile; fileRef = E35EBC7A1E0590ED0047E04F /* HYKLineAboveAxisMaskView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -341,6 +351,22 @@
 		E35E2F101DE6EA2F00DF4DF7 /* RRStock_PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RRStock_PrefixHeader.pch; sourceTree = "<group>"; };
 		E35E2F251DE7025600DF4DF7 /* test8.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = test8.gif; sourceTree = "<group>"; };
 		E35E2F271DE7026B00DF4DF7 /* test6.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = test6.gif; sourceTree = "<group>"; };
+		E35EBC5E1E0508400047E04F /* TimeLineLongPressView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimeLineLongPressView.xib; sourceTree = "<group>"; };
+		E35EBC631E05138C0047E04F /* BrokenLineLongPressView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BrokenLineLongPressView.xib; sourceTree = "<group>"; };
+		E35EBC641E05138C0047E04F /* HYBrokenLineLongPressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYBrokenLineLongPressView.h; sourceTree = "<group>"; };
+		E35EBC651E05138C0047E04F /* HYBrokenLineLongPressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYBrokenLineLongPressView.m; sourceTree = "<group>"; };
+		E35EBC681E0515620047E04F /* HYTimeLineLongPressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYTimeLineLongPressView.h; sourceTree = "<group>"; };
+		E35EBC691E0515620047E04F /* HYTimeLineLongPressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYTimeLineLongPressView.m; sourceTree = "<group>"; };
+		E35EBC6B1E0519120047E04F /* kLineLongPressView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = kLineLongPressView.xib; sourceTree = "<group>"; };
+		E35EBC6D1E051DD70047E04F /* HYKLineLongPressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYKLineLongPressView.h; sourceTree = "<group>"; };
+		E35EBC6E1E051DD70047E04F /* HYKLineLongPressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYKLineLongPressView.m; sourceTree = "<group>"; };
+		E35EBC701E0526DA0047E04F /* defaultLineLongPressView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = defaultLineLongPressView.xib; sourceTree = "<group>"; };
+		E35EBC721E05309C0047E04F /* YYTimeLineBelowMaskView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYTimeLineBelowMaskView.h; sourceTree = "<group>"; };
+		E35EBC731E05309C0047E04F /* YYTimeLineBelowMaskView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYTimeLineBelowMaskView.m; sourceTree = "<group>"; };
+		E35EBC761E057F450047E04F /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
+		E35EBC771E057F450047E04F /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
+		E35EBC791E0590ED0047E04F /* HYKLineAboveAxisMaskView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HYKLineAboveAxisMaskView.h; sourceTree = "<group>"; };
+		E35EBC7A1E0590ED0047E04F /* HYKLineAboveAxisMaskView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HYKLineAboveAxisMaskView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -547,6 +573,7 @@
 		E35E2DE81DE6E7D800DF4DF7 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				E35EBC751E057F450047E04F /* UIView+Extension */,
 				E35E2F0C1DE6E8E900DF4DF7 /* UIColor+CZ */,
 				E35E2F021DE6E87300DF4DF7 /* UILabel+CZ */,
 				E35E2EFB1DE6E85500DF4DF7 /* UIButton+CZ */,
@@ -681,6 +708,8 @@
 				E35E2E0C1DE6E7D800DF4DF7 /* HYKLinePositionModel.m */,
 				E35E2E0D1DE6E7D800DF4DF7 /* HYMALine.h */,
 				E35E2E0E1DE6E7D800DF4DF7 /* HYMALine.m */,
+				E35EBC791E0590ED0047E04F /* HYKLineAboveAxisMaskView.h */,
+				E35EBC7A1E0590ED0047E04F /* HYKLineAboveAxisMaskView.m */,
 			);
 			path = AboveView;
 			sourceTree = "<group>";
@@ -774,6 +803,9 @@
 				E35E2E2E1DE6E7D800DF4DF7 /* HYBrokenLineLongPressProfileView.h */,
 				E35E2E2F1DE6E7D800DF4DF7 /* HYBrokenLineLongPressProfileView.m */,
 				E35E2E301DE6E7D800DF4DF7 /* HYBrokenLineLongPressProfileView.xib */,
+				E35EBC631E05138C0047E04F /* BrokenLineLongPressView.xib */,
+				E35EBC641E05138C0047E04F /* HYBrokenLineLongPressView.h */,
+				E35EBC651E05138C0047E04F /* HYBrokenLineLongPressView.m */,
 			);
 			path = BrokenLineLongPressProfileView;
 			sourceTree = "<group>";
@@ -781,6 +813,7 @@
 		E35E2E311DE6E7D800DF4DF7 /* DefaultProfileView */ = {
 			isa = PBXGroup;
 			children = (
+				E35EBC701E0526DA0047E04F /* defaultLineLongPressView.xib */,
 				E35E2E321DE6E7D800DF4DF7 /* HYStoctDefaultProfileView.h */,
 				E35E2E331DE6E7D800DF4DF7 /* HYStoctDefaultProfileView.m */,
 				E35E2E341DE6E7D800DF4DF7 /* HYStoctDefaultProfileView.xib */,
@@ -794,6 +827,9 @@
 				E35E2E361DE6E7D800DF4DF7 /* HYKLineLongPressProfileView.h */,
 				E35E2E371DE6E7D800DF4DF7 /* HYKLineLongPressProfileView.m */,
 				E35E2E381DE6E7D800DF4DF7 /* HYKLineLongPressProfileView.xib */,
+				E35EBC6B1E0519120047E04F /* kLineLongPressView.xib */,
+				E35EBC6D1E051DD70047E04F /* HYKLineLongPressView.h */,
+				E35EBC6E1E051DD70047E04F /* HYKLineLongPressView.m */,
 			);
 			path = KLineLongPressProfileView;
 			sourceTree = "<group>";
@@ -801,9 +837,12 @@
 		E35E2E391DE6E7D800DF4DF7 /* TimeLineLongPressProfileView */ = {
 			isa = PBXGroup;
 			children = (
+				E35EBC681E0515620047E04F /* HYTimeLineLongPressView.h */,
+				E35EBC691E0515620047E04F /* HYTimeLineLongPressView.m */,
 				E35E2E3A1DE6E7D800DF4DF7 /* HYTimeLineLongPressProfileView.h */,
 				E35E2E3B1DE6E7D800DF4DF7 /* HYTimeLineLongPressProfileView.m */,
 				E35E2E3C1DE6E7D800DF4DF7 /* HYTimeLineLongPressProfileView.xib */,
+				E35EBC5E1E0508400047E04F /* TimeLineLongPressView.xib */,
 			);
 			path = TimeLineLongPressProfileView;
 			sourceTree = "<group>";
@@ -864,6 +903,8 @@
 				E35E2E4E1DE6E7D800DF4DF7 /* HYTimeLineBelowView.m */,
 				E35E2E4F1DE6E7D800DF4DF7 /* HYTimeLineVolume.h */,
 				E35E2E501DE6E7D800DF4DF7 /* HYTimeLineVolume.m */,
+				E35EBC721E05309C0047E04F /* YYTimeLineBelowMaskView.h */,
+				E35EBC731E05309C0047E04F /* YYTimeLineBelowMaskView.m */,
 			);
 			path = BelowView;
 			sourceTree = "<group>";
@@ -955,6 +996,15 @@
 				E35E2F0E1DE6E8E900DF4DF7 /* UIColor+Utils.m */,
 			);
 			path = "UIColor+CZ";
+			sourceTree = "<group>";
+		};
+		E35EBC751E057F450047E04F /* UIView+Extension */ = {
+			isa = PBXGroup;
+			children = (
+				E35EBC761E057F450047E04F /* UIView+Extension.h */,
+				E35EBC771E057F450047E04F /* UIView+Extension.m */,
+			);
+			path = "UIView+Extension";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1065,12 +1115,16 @@
 				E35E2F281DE7026B00DF4DF7 /* test6.gif in Resources */,
 				E35E2EB21DE6E7D800DF4DF7 /* HYStoctDefaultProfileView.xib in Resources */,
 				E35E2E871DE6E7D800DF4DF7 /* FiveDaysLine.plist in Resources */,
+				E35EBC5F1E0508400047E04F /* TimeLineLongPressView.xib in Resources */,
+				E35EBC6C1E0519120047E04F /* kLineLongPressView.xib in Resources */,
 				E35E2EB41DE6E7D800DF4DF7 /* HYKLineLongPressProfileView.xib in Resources */,
 				E35E2F261DE7025600DF4DF7 /* test8.gif in Resources */,
 				E35E2EA81DE6E7D800DF4DF7 /* HYKLineDetailView.xib in Resources */,
 				E35E2E861DE6E7D800DF4DF7 /* DaylyKLine.plist in Resources */,
 				E35E2D8A1DE6E7A600DF4DF7 /* LaunchScreen.storyboard in Resources */,
 				E35E2EAB1DE6E7D800DF4DF7 /* HYKLineMAView.xib in Resources */,
+				E35EBC661E05138C0047E04F /* BrokenLineLongPressView.xib in Resources */,
+				E35EBC711E0526DA0047E04F /* defaultLineLongPressView.xib in Resources */,
 				E35E2EEF1DE6E80C00DF4DF7 /* LICENSE in Resources */,
 				E35E2D871DE6E7A600DF4DF7 /* Assets.xcassets in Resources */,
 				E35E2EB01DE6E7D800DF4DF7 /* HYBrokenLineLongPressProfileView.xib in Resources */,
@@ -1120,6 +1174,7 @@
 				E35E2EFA1DE6E80C00DF4DF7 /* README.md in Sources */,
 				E35E2E8D1DE6E7D800DF4DF7 /* MJType.m in Sources */,
 				E35E2E9B1DE6E7D800DF4DF7 /* UIFont+HYStockChart.m in Sources */,
+				E35EBC6F1E051DD70047E04F /* HYKLineLongPressView.m in Sources */,
 				E35E2EAC1DE6E7D800DF4DF7 /* HYStockChartView.m in Sources */,
 				E35E2E7B1DE6E7D800DF4DF7 /* ArtTableViewController.m in Sources */,
 				E35E2EC31DE6E7D800DF4DF7 /* HYTimeLineModel.m in Sources */,
@@ -1133,6 +1188,7 @@
 				E35E2EA31DE6E7D800DF4DF7 /* HYKLineBelowView.m in Sources */,
 				E35E2E831DE6E7D800DF4DF7 /* StockOpinionController.m in Sources */,
 				E35E2EA61DE6E7D800DF4DF7 /* HYKLineView.m in Sources */,
+				E35EBC741E05309C0047E04F /* YYTimeLineBelowMaskView.m in Sources */,
 				E35E2EA01DE6E7D800DF4DF7 /* HYKLineAboveView.m in Sources */,
 				E35E2EF81DE6E80C00DF4DF7 /* View+MASAdditions.m in Sources */,
 				E35E2EB81DE6E7D800DF4DF7 /* HYTimeLine.m in Sources */,
@@ -1149,6 +1205,7 @@
 				E35E2D791DE6E7A600DF4DF7 /* main.m in Sources */,
 				E35E2EC51DE6E7D800DF4DF7 /* TradeDetailTableView.m in Sources */,
 				E35E2EA11DE6E7D800DF4DF7 /* HYKLinePositionModel.m in Sources */,
+				E35EBC7B1E0590ED0047E04F /* HYKLineAboveAxisMaskView.m in Sources */,
 				E35E2E7D1DE6E7D800DF4DF7 /* RRStockChartView.m in Sources */,
 				E35E2EF01DE6E80C00DF4DF7 /* MASCompositeConstraint.m in Sources */,
 				E35E2EB51DE6E7D800DF4DF7 /* HYTimeLineLongPressProfileView.m in Sources */,
@@ -1158,6 +1215,8 @@
 				E35E2E891DE6E7D800DF4DF7 /* JMSKLineModel.m in Sources */,
 				E35E2F0F1DE6E8E900DF4DF7 /* UIColor+Utils.m in Sources */,
 				E35E2EF71DE6E80C00DF4DF7 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
+				E35EBC671E05138C0047E04F /* HYBrokenLineLongPressView.m in Sources */,
+				E35EBC6A1E0515620047E04F /* HYTimeLineLongPressView.m in Sources */,
 				E35E2F081DE6E89A00DF4DF7 /* RecognizeSimultaneousTableView.m in Sources */,
 				E35E2EF41DE6E80C00DF4DF7 /* MASViewAttribute.m in Sources */,
 				E35E2EF21DE6E80C00DF4DF7 /* MASConstraintMaker.m in Sources */,
@@ -1178,6 +1237,7 @@
 				E35E2E9E1DE6E7D800DF4DF7 /* HYStockChartTool.m in Sources */,
 				E35E2E811DE6E7D800DF4DF7 /* StockNewsController.m in Sources */,
 				E35E2EBE1DE6E7D800DF4DF7 /* HYTimeLineVolume.m in Sources */,
+				E35EBC781E057F450047E04F /* UIView+Extension.m in Sources */,
 				E35E2E841DE6E7D800DF4DF7 /* StockResearchReportController.m in Sources */,
 				E35E2EAD1DE6E7D800DF4DF7 /* HYStockChartSegmentView.m in Sources */,
 				E35E2E8A1DE6E7D800DF4DF7 /* MJConst.m in Sources */,
@@ -1420,6 +1480,7 @@
 				E35E2DA61DE6E7A600DF4DF7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E35E2DA71DE6E7A600DF4DF7 /* Build configuration list for PBXNativeTarget "RRStockTests" */ = {
 			isa = XCConfigurationList;
@@ -1428,6 +1489,7 @@
 				E35E2DA91DE6E7A600DF4DF7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		E35E2DAA1DE6E7A600DF4DF7 /* Build configuration list for PBXNativeTarget "RRStockUITests" */ = {
 			isa = XCConfigurationList;
@@ -1436,6 +1498,7 @@
 				E35E2DAC1DE6E7A600DF4DF7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

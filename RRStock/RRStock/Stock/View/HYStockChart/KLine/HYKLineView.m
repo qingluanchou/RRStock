@@ -16,8 +16,11 @@
 #import "HYStockChartYView.h"
 #import "UIColor+HYStockChart.h"
 #import "HYKLineLongPressProfileView.h"
+#import "HYKLineLongPressView.h"
 #import "Masonry.h"
+#import "UIView+Extension.h"
 #import "UIFont+HYStockChart.h"
+#import "HYKLineVolumePositionModel.h"
 
 @interface HYKLineView ()<UIScrollViewDelegate,HYKLineAboveViewDelegate,HYKLineBelowViewDelegate>
 {
@@ -39,13 +42,22 @@
 
 @property(nonatomic,strong) HYKLineLongPressProfileView *longPressProfileView;
 
+@property(nonatomic,strong) HYKLineLongPressView *longPressView;
+
 @property(nonatomic,assign) CGFloat oldRightOffset;
 
+//上面的竖线
 @property(nonatomic,strong) UIView *verticalView;
 
-@property(nonatomic,strong) UILabel *volumeLabel;   //在左下角展示成交量的label
+//下面面的竖线
+@property(nonatomic,strong) UIView *volumeVerticalView;
 
+@property(nonatomic,strong) UILabel *volumeLabel;   //在左下角展示成交量的label
+//上面横线
 @property(nonatomic,strong) UIView *horizontalView;
+
+//成交量横线
+@property(nonatomic,strong) UIView *volumeHorizontalView;
 
 @end
 
@@ -62,17 +74,49 @@
         
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(event_deviceOrientationDidChanged:) name:UIDeviceOrientationDidChangeNotification object:nil];
+//        CGContextRef context = UIGraphicsGetCurrentContext();
+//        [self drawGridBackground:context rect:frame];
         
-                //画边框
-                CGContextRef context = UIGraphicsGetCurrentContext();
-                CGContextSetLineWidth(context, HYStockChartTimeLineGridWidth);
-                CGContextSetStrokeColorWithColor(context, [UIColor gridLineColor].CGColor);
-                CGContextStrokeRect(context, CGRectMake(0, 0, self.frame.size.width , self.frame.size.height));
-        
-        
+
     }
     return self;
 }
+
+
+- (void)drawRect:(CGRect)rect
+{
+    [super drawRect:rect];
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    UIColor * backgroundColor = [UIColor whiteColor];
+    CGContextSetFillColorWithColor(context, backgroundColor.CGColor);
+    CGContextFillRect(context, rect);
+    
+   
+    CGContextSetLineWidth(context, HYStockChartTimeLineGridWidth);
+    CGContextSetStrokeColorWithColor(context, [UIColor gridLineColor].CGColor);
+    CGContextStrokeRect(context, CGRectMake(10, 0, self.frame.size.width - 60, self.frame.size.height * 0.7 -20));
+    
+    CGContextSetLineWidth(context, HYStockChartTimeLineGridWidth);
+    CGContextSetStrokeColorWithColor(context, [UIColor gridLineColor].CGColor);
+    CGContextStrokeRect(context, CGRectMake(10, self.frame.size.height * 0.7, self.frame.size.width - 60, self.frame.size.height * 0.3));
+}
+
+
+- (void)drawGridBackground:(CGContextRef)context
+                      rect:(CGRect)rect;
+{
+//    UIColor * backgroundColor = [UIColor whiteColor];
+//    CGContextSetFillColorWithColor(context, backgroundColor.CGColor);
+//    CGContextFillRect(context, rect);
+    
+    //画边框
+    CGContextSetLineWidth(context, HYStockChartTimeLineGridWidth);
+    CGContextSetStrokeColorWithColor(context, [UIColor gridLineColor].CGColor);
+    CGContextStrokeRect(context, rect);
+    
+}
+
 
 #pragma mark - get&set方法
 #pragma mark YView的get方法
@@ -84,7 +128,7 @@
         [self insertSubview:_priceView aboveSubview:self.scrollView];
         [_priceView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(self);
-            make.right.equalTo(self.mas_right);
+            make.right.equalTo(self.scrollView);
             make.height.equalTo(self).multipliedBy(self.aboveViewRatio);
             make.width.equalTo(@(HYStockChartKLinePriceViewWidth));
         }];
@@ -118,8 +162,8 @@
         _scrollView.maximumZoomScale = 1.0f;
         _scrollView.alwaysBounceHorizontal = YES;
         _scrollView.delegate = self;
-        _scrollView.layer.borderWidth = 0.5;
-        _scrollView.layer.borderColor = [[UIColor gridLineColor] CGColor];
+        //_scrollView.layer.borderWidth = 0.5;
+        //_scrollView.layer.borderColor = [[UIColor gridLineColor] CGColor];
         //缩放手势
         UIPinchGestureRecognizer *pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(event_pinchMethod:)];
         [_scrollView addGestureRecognizer:pinchGesture];
@@ -138,10 +182,18 @@
        // WS(weakSelf);
         WEAKSELF(weakSelf);
         [_scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.top.equalTo(weakSelf);
+            make.top.equalTo(weakSelf).offset(0.5);
             make.right.equalTo(weakSelf).offset(_scrollViewOffsetRightDistance);
-            make.left.equalTo(weakSelf.mas_left);
-            make.bottom.equalTo(weakSelf.mas_bottom);
+            if ([UIScreen mainScreen].bounds.size.width < 450)
+            {
+               make.left.equalTo(weakSelf.mas_left);
+            }
+            else
+            {
+                make.left.equalTo(weakSelf.mas_left).offset(10);
+            }
+            
+            make.bottom.equalTo(weakSelf.mas_bottom).offset(-0.5);
         }];
         
 
@@ -150,6 +202,7 @@
     }
     return _scrollView;
 }
+
 
 #pragma mark kLineAboveView的get方法
 -(HYKLineAboveView *)kLineAboveView
@@ -197,8 +250,8 @@
         [_maView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self);
             make.left.equalTo(self).offset(10);
-            make.top.equalTo(self).offset(10);
-            make.height.equalTo(@10);
+            make.top.equalTo(self).offset(0.5);
+            make.height.equalTo(@19.5);
         }];
     }
     return _maView;
@@ -219,6 +272,24 @@
     return _longPressProfileView;
 }
 
+-(HYKLineLongPressView *)longPressView
+{
+    if (!_longPressView) {
+        _longPressView = [HYKLineLongPressView kLineLongPressProfileView];
+        [self addSubview:_longPressView];
+        [_longPressView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.bottom.equalTo(self.mas_top);
+//            make.left.right.equalTo(self);
+//            make.height.equalTo(@(HYStockChartProfileViewHeight));
+            make.bottom.equalTo(self.mas_top).offset(-10);;
+            make.left.right.equalTo(self);
+            make.height.equalTo(@(30));
+        }];
+    }
+    return _longPressView;
+}
+
+
 #pragma mark volumeLabel的get方法
 -(UILabel *)volumeLabel
 {
@@ -228,7 +299,7 @@
         _volumeLabel.font = [UIFont f39Font];
         [self addSubview:_volumeLabel];
         [_volumeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self).offset(5);
+            make.left.equalTo(self).offset(10);
             make.top.equalTo(self.kLineBelowView).offset(5);
         }];
     }
@@ -273,16 +344,63 @@
 #pragma mark 缩放执行的方法
 -(void)event_pinchMethod:(UIPinchGestureRecognizer *)pinch
 {
+//    static CGFloat oldScale = 1.0f;
+//    CGFloat difValue = pinch.scale - oldScale;
+//    if (ABS(difValue) > HYStockChartScaleBound) {
+//        CGFloat oldKLineWidth = [HYStockChartGloablVariable kLineWidth];
+//        [HYStockChartGloablVariable setkLineWith:oldKLineWidth*(difValue>0?(1+HYStockChartScaleFactor):(1-HYStockChartScaleFactor))];
+//        oldScale = pinch.scale;
+//        //更新AboveView的宽度
+//        [self.kLineAboveView updateAboveViewWidth];
+//        [self.kLineAboveView drawAboveView];
+//    }
+    
+    /*******/
+    //1.获取缩放倍数
     static CGFloat oldScale = 1.0f;
     CGFloat difValue = pinch.scale - oldScale;
-    if (ABS(difValue) > HYStockChartScaleBound) {
-        CGFloat oldKLineWidth = [HYStockChartGloablVariable kLineWidth];
-        [HYStockChartGloablVariable setkLineWith:oldKLineWidth*(difValue>0?(1+HYStockChartScaleFactor):(1-HYStockChartScaleFactor))];
-        oldScale = pinch.scale;
-        //更新AboveView的宽度
-        [self.kLineAboveView updateAboveViewWidth];
-        [self.kLineAboveView drawAboveView];
+    
+    if(ABS(difValue) > HYStockChartScaleBound) {
+        if( pinch.numberOfTouches == 2 ) {
+            
+            //2.获取捏合中心点 -> 捏合中心点距离scrollviewcontent左侧的距离
+            CGPoint p1 = [pinch locationOfTouch:0 inView:self.scrollView];
+            CGPoint p2 = [pinch locationOfTouch:1 inView:self.scrollView];
+            CGFloat centerX = (p1.x+p2.x)/2;
+            
+            //3.拿到中心点数据源的index
+            CGFloat oldLeftArrCount = ABS(centerX + [HYStockChartGloablVariable kLineGap]) / ([HYStockChartGloablVariable kLineWidth]+[HYStockChartGloablVariable kLineGap]);
+            
+            //4.缩放重绘
+            CGFloat newLineWidth = [HYStockChartGloablVariable kLineWidth] * (difValue > 0 ? (1 + HYStockChartScaleBound) : (1 - HYStockChartScaleBound));
+            if (newLineWidth >= 15)
+            {
+                newLineWidth = 15;
+            }
+            [HYStockChartGloablVariable setkLineWith:newLineWidth];
+            [self.kLineAboveView updateAboveViewWidth];
+            
+            //5.计算更新宽度后捏合中心点距离klineView左侧的距离
+            CGFloat newLeftDistance = oldLeftArrCount * [HYStockChartGloablVariable kLineWidth] + (oldLeftArrCount - 1) * [HYStockChartGloablVariable kLineGap];
+            
+            //6.设置scrollview的contentoffset = (5) - (2);
+            if ( self.kLineModels.count * newLineWidth + (self.kLineModels.count + 1) * [HYStockChartGloablVariable kLineGap] > self.scrollView.bounds.size.width ) {
+                CGFloat newOffsetX = newLeftDistance - (centerX - self.scrollView.contentOffset.x);
+                self.scrollView.contentOffset = CGPointMake(newOffsetX > 0 ? newOffsetX : 0 , self.scrollView.contentOffset.y);
+            } else {
+                self.scrollView.contentOffset = CGPointMake(0 , self.scrollView.contentOffset.y);
+            }
+            //更新contentsize
+             [self.kLineAboveView updateAboveViewWidth];
+            [self setNeedsDisplay];
+        }
     }
+
+    
+    
+    /******/
+    
+    
 }
 
 #pragma mark 长按手势执行方法
@@ -308,7 +426,20 @@
             [self.verticalView mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.top.equalTo(self);
                 make.width.equalTo(@(HYStockChartLongPressVerticalViewWidth));
-                make.height.equalTo(self.scrollView.mas_height);
+                make.height.equalTo(self.kLineAboveView.mas_height).offset(-19);
+                make.left.equalTo(@(-10));
+            }];
+        }
+        
+        if (!self.volumeVerticalView) {
+            self.volumeVerticalView = [UIView new];
+            self.volumeVerticalView.clipsToBounds = YES;
+            [self.scrollView addSubview:self.volumeVerticalView];
+            self.volumeVerticalView.backgroundColor = [UIColor longPressLineColor];
+            [self.volumeVerticalView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.top.equalTo(self.kLineAboveView.mas_bottom);
+                make.width.equalTo(@(HYStockChartLongPressVerticalViewWidth));
+                make.height.equalTo(self.kLineBelowView.mas_height);
                 make.left.equalTo(@(-10));
             }];
         }
@@ -326,23 +457,65 @@
                 make.top.equalTo(@-10);
             }];
         }
+        
+        
+        if (!self.volumeHorizontalView) {
+            //显示竖线
+            self.volumeHorizontalView = [UIView new];
+            self.volumeHorizontalView.clipsToBounds = YES;
+            [self.scrollView addSubview:self.volumeHorizontalView];
+            self.volumeHorizontalView.backgroundColor = [UIColor longPressLineColor];
+            [self.volumeHorizontalView mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.equalTo(self);
+                make.height.equalTo(@(HYStockChartLongPressVerticalViewWidth));
+                make.width.equalTo(self.mas_width);
+                make.top.equalTo(@-10);
+            }];
+        }
+        
+       
+        
 
         //更改竖线的位置
        // CGFloat rightXPosition = [self.kLineAboveView getRightXPositionWithOriginXPosition:location.x];
         HYKLinePositionModel *kLinePositionModel = [self.kLineAboveView getRightXPositionWithOriginXPosition:location.x];
+        
+        HYKLineModel *kLineModel = [self.kLineAboveView getRightXLocationWithOriginXPosition:location.x];
+        
         CGFloat rightXPosition = kLinePositionModel.highPoint.x;
         CGFloat topYPosition = kLinePositionModel.closePoint.y;
         [self.verticalView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(@(rightXPosition));
         }];
+        
+        CGPoint currentPoint = [self.kLineBelowView kLineBelowViewLongPressKLinePositionModel:kLinePositionModel kLineModel:kLineModel];
+        CGFloat belowYPosition = CGRectGetMaxY(self.kLineAboveView.frame) + currentPoint.y;
+        //self.volumeHorizontalView.y = belowYPosition;
+        
+        
         [self.verticalView layoutIfNeeded];
         self.verticalView.hidden = NO;
+        
+        [self.volumeVerticalView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(@(rightXPosition));
+        }];
+        [self.volumeVerticalView layoutIfNeeded];
+        self.volumeVerticalView.hidden = NO;
         
         [self.horizontalView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.top.equalTo(@(topYPosition));
         }];
+        
+        [self.volumeHorizontalView mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(@(belowYPosition));
+        }];
+        
         [self.horizontalView layoutIfNeeded];
         self.horizontalView.hidden = NO;
+        [self.volumeHorizontalView layoutIfNeeded];
+        self.volumeHorizontalView.hidden = NO;
+        
+        
     }
     if (UIGestureRecognizerStateEnded == longPress.state) {
        
@@ -352,14 +525,24 @@
             self.verticalView.hidden = YES;
         }
         
+        if (self.volumeVerticalView) {
+            self.volumeVerticalView.hidden = YES;
+        }
+        
         //取消横线
         if (self.horizontalView) {
             self.horizontalView.hidden = YES;
         }
+        
+        if (self.volumeHorizontalView) {
+            self.volumeHorizontalView.hidden = YES;
+        }
+        
         oldPositionX = 0;
         //让scrollView的scrollEnabled可用
         self.scrollView.scrollEnabled = YES;
         self.longPressProfileView.hidden = YES;
+        self.longPressView.hidden = YES;
         self.volumeLabel.hidden = YES;
         HYKLineModel *lastModel = [self.kLineModels lastObject];
         self.maView.maModel = [HYKLineMAModel maModelWithMA5:lastModel.MA5 MA10:lastModel.MA10 MA20:lastModel.MA20 MA30:lastModel.MA30];
@@ -437,10 +620,13 @@
     }
     //更新选择的kLineModel信息
     self.longPressProfileView.kLineModel = kLineModel;
-    self.longPressProfileView.hidden = NO;
+    self.longPressView.kLineModel = kLineModel;
+    self.longPressProfileView.hidden = YES;
+    self.longPressView.hidden = NO;
     self.volumeLabel.text = [NSString stringWithFormat:@"成交量：%.2f万手",kLineModel.volume/10000.0f];
     self.volumeLabel.hidden = NO;
     self.maView.maModel = [HYKLineMAModel maModelWithMA5:kLineModel.MA5 MA10:kLineModel.MA10 MA20:kLineModel.MA20 MA30:kLineModel.MA30];
+    
 }
 #pragma mark HYKLAboveView的当前最大股价和最小股价
 -(void)kLineAboveViewCurrentMaxPrice:(CGFloat)maxPrice minPrice:(CGFloat)minPrice

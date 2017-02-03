@@ -58,4 +58,9 @@
 //长按时当前位置的信息
 -(void)timeLineAboveViewLongPressTimeLineModel:(HYTimeLineModel *)timeLineModel;
 
+-(void)timeLineAboveViewLongPressDismiss;
+
+//选中的点和位置
+-(void)timeLineAboveViewLongPressAboveLineModel:(HYTimeLineModel *)selectedModel selectPoint:(CGPoint)selectedPoint;
+
 @end

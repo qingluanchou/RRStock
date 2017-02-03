@@ -52,6 +52,11 @@
 -(HYKLinePositionModel *)getRightXPositionWithOriginXPosition:(CGFloat)originXPosition;
 
 /**
+ *  长按后展示手指按着的在数组中的位置
+ */
+-(HYKLineModel *)getRightXLocationWithOriginXPosition:(CGFloat)originXPosition;
+
+/**
  *  移除所有监听
  */
 -(void)removeAllObserver;
@@ -68,6 +73,8 @@
  *  长按后展示手指按着的HYKLinePositionModel和HYKLineModel
  */
 -(void)kLineAboveViewLongPressKLinePositionModel:(HYKLinePositionModel *)kLinePositionModel kLineModel:(HYKLineModel *)kLineModel;
+
+
 
 /**
  *  当前AboveView中的最大股价和最小股价

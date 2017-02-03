@@ -17,12 +17,16 @@
 
 @interface HYKLineAboveView ()
 
+/** 当前需要展示的k线模型*/
 @property(nonatomic,strong,readwrite) NSMutableArray *needDrawKLineModels;
 
+ /** 当前需要展示的相对于视图的点的位置*/
 @property(nonatomic,strong,readwrite) NSMutableArray *needDrawKLinePositionModels;
 
+ /** 从第几条数据开始*/
 @property(nonatomic,assign,readwrite) NSUInteger needDrawStartIndex;
 
+ /** 开始的位置*/
 @property(nonatomic,assign,readonly) CGFloat startXPosition;
 
 @property(nonatomic,assign) CGFloat oldContentOffsetX;
@@ -77,6 +81,22 @@
     CGContextFillRect(context, rect);
     
     [self drawline:context startPoint:CGPointMake(0, HYStockChartKLineAboveViewMaxY) stopPoint:CGPointMake(self.frame.size.width, HYStockChartKLineAboveViewMaxY) color:[UIColor gridLineColor] lineWidth:HYStockChartTimeLineGridWidth];
+    
+    //上边线
+    CGPoint startPoint = CGPointMake(0.0, HYStockChartKLineAboveViewMinY);
+    CGPoint endPoint = CGPointMake(rect.size.width, HYStockChartKLineAboveViewMinY);
+    [self drawline:context startPoint:startPoint stopPoint:endPoint color:[UIColor colorWithWhite226] lineWidth:0.25];
+    
+    //下边线
+    CGPoint downStartPoint = CGPointMake(0.0, HYStockChartKLineAboveViewMaxY - 10);
+    CGPoint downEndPoint = CGPointMake(rect.size.width, HYStockChartKLineAboveViewMaxY - 10);
+    [self drawline:context startPoint:downStartPoint stopPoint:downEndPoint color:[UIColor colorWithWhite226] lineWidth:0.25];
+    
+    CGFloat middleLineY = (HYStockChartKLineAboveViewMaxY  -HYStockChartKLineAboveViewMinY)/2.0 + HYStockChartKLineAboveViewMinY;
+    //中线
+    CGPoint middleStartPoint = CGPointMake(0.0, middleLineY);
+    CGPoint middleEndPoint = CGPointMake(rect.size.width, middleLineY);
+    [self drawline:context startPoint:middleStartPoint stopPoint:middleEndPoint color:[UIColor colorWithWhite226] lineWidth:0.25];
     
     //设置显示日期那个区域的背景颜色
     CGContextSetFillColorWithColor(context, [UIColor assistBackgroundColor].CGColor);
@@ -186,7 +206,7 @@
 -(void)updateAboveViewWidth
 {
     //根据stockModels个数和间隙以及K线的宽度算出self的宽度,设置contentSize
-    CGFloat kLineViewWidth = self.kLineModels.count * [HYStockChartGloablVariable kLineWidth] + (self.kLineModels.count + 1) * [HYStockChartGloablVariable kLineGap]+10;
+    CGFloat kLineViewWidth = self.kLineModels.count * [HYStockChartGloablVariable kLineWidth] + (self.kLineModels.count + 1) * [HYStockChartGloablVariable kLineGap];
 
     if (kLineViewWidth < [UIScreen mainScreen].bounds.size.width) {
         kLineViewWidth = [UIScreen mainScreen].bounds.size.width;
@@ -216,6 +236,27 @@
             }
            // return kLinePositionModel.highPoint.x;
             return kLinePositionModel;
+        }
+    }
+    return 0;
+}
+
+-(HYKLineModel *)getRightXLocationWithOriginXPosition:(CGFloat)originXPosition
+{
+    CGFloat xPositionInAboveView = originXPosition;
+    NSInteger startIndex = (NSInteger)((xPositionInAboveView-self.startXPosition) / ([HYStockChartGloablVariable kLineGap]+[HYStockChartGloablVariable kLineWidth]));
+    NSInteger arrCount = self.needDrawKLinePositionModels.count;
+    for (NSInteger index = startIndex > 0 ? startIndex-1 : 0; index < arrCount; ++index) {
+        HYKLinePositionModel *kLinePositionModel = self.needDrawKLinePositionModels[index];
+        CGFloat minX = kLinePositionModel.highPoint.x - ([HYStockChartGloablVariable kLineGap]+[HYStockChartGloablVariable kLineWidth])/2;
+        CGFloat maxX = kLinePositionModel.highPoint.x + ([HYStockChartGloablVariable kLineGap]+[HYStockChartGloablVariable kLineWidth])/2;
+        if (xPositionInAboveView > minX && xPositionInAboveView < maxX) {
+            if (self.delegate && [self.delegate respondsToSelector:@selector(kLineAboveViewLongPressKLinePositionModel:kLineModel:)]) {
+                [self.delegate kLineAboveViewLongPressKLinePositionModel:self.needDrawKLinePositionModels[index] kLineModel:self.needDrawKLineModels[index]];
+            }
+            // return kLinePositionModel.highPoint.x;
+            HYKLineModel *kLineModel = self.needDrawKLineModels[index];
+            return kLineModel;
         }
     }
     return 0;

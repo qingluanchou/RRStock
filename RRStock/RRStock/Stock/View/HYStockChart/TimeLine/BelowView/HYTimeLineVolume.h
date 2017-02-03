@@ -23,6 +23,7 @@
 
 -(instancetype)initWithContext:(CGContextRef)context;
 
+
 -(void)draw;
 
 @end

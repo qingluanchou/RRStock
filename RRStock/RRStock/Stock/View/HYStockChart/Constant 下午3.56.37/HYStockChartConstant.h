@@ -68,7 +68,7 @@ extern CGFloat const HYStockChartScaleFactor;
 /**
  *  K线图的成交量上最小的Y
  */
-#define HYStockChartKLineBelowViewMinY 0
+#define HYStockChartKLineBelowViewMinY 5
 
 /**
  *  K线图的成交量最大的Y

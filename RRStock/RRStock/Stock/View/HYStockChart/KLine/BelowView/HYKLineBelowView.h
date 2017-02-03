@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HYKLinePositionModel.h"
+#import "HYKLineModel.h"
 
 @protocol HYKLineBelowViewDelegate;
 
@@ -22,6 +24,12 @@
  *  需要绘制的K线的X位置的数组
  */
 @property(nonatomic,strong) NSArray *needDrawKLinePositionModels;
+
+
+/**
+ *  需要绘制的成交量的位置模型数组
+ */
+@property(nonatomic,strong) NSArray *needDrawKLineVolumePositionModels;
 
 /**
  *  K线的颜色
@@ -39,6 +47,11 @@
 -(void)clearRectWithColor:(UIColor *)bgColor NS_DEPRECATED_IOS(2_0,2_0,"这个方法暂时没有实现!");
 
 /**
+ *  长按的时候根据原始的x的位置获得精确的位置
+ */
+-(CGPoint)kLineBelowViewLongPressKLinePositionModel:(HYKLinePositionModel *)kLinePositionModel kLineModel:(HYKLineModel *)kLineModel;
+
+/**
  *  绘制BelowView
  */
 -(void)drawBelowView;
@@ -54,5 +67,10 @@
  *  绘制的成交量中最大的成交量和最小的成交量
  */
 -(void)kLineBelowViewCurrentMaxVolume:(CGFloat)maxVolume minVolume:(CGFloat)minVolume;
+
+/**
+ *  长按后展示手指按着的HYKLinePositionModel和HYKLineModel
+ */
+-(void)kLineBelowViewLongPressKLinePositionModel:(HYKLinePositionModel *)kLinePositionModel kLineModel:(HYKLineModel *)kLineModel;
 
 @end

@@ -12,10 +12,14 @@
 #import "HYTimeLineBelowPositionModel.h"
 #import "HYTimeLineVolume.h"
 #import "UIColor+HYStockChart.h"
+#import "HYTimeLineAboveView.h"
+#import "YYTimeLineBelowMaskView.h"
 
 @interface HYTimeLineBelowView()
 
 @property(nonatomic,strong) NSArray *positionModels;
+
+//@property (nonatomic,strong)YYTimeLineMaskView *maskView;
 
 @end
 
@@ -39,7 +43,22 @@
     }
     
     [self drawGridBackground:rect];
-    
+    if (self.centerViewType == HYStockChartCenterViewTypeBrokenLine) {
+        
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        //添加分时线宽度
+        CGContextSetLineWidth(context, 0.25);
+        //添加分时线颜色
+        CGContextSetStrokeColorWithColor(context, [UIColor gridLineColor].CGColor);
+        for (int i = 0; i < 4; i ++)
+        {
+            CGFloat xzhouriqi = (HYStockChartTimeLineAboveViewMaxX-HYStockChartTimeLineAboveViewMinX) * (i + 1 ) / 5.0;
+            CGContextMoveToPoint(context,xzhouriqi, 0);
+            CGContextAddLineToPoint(context, xzhouriqi, self.frame.size.height);
+            CGContextStrokePath(context);
+        }
+    }
+
     HYTimeLineVolume *timeLineVolumn = [[HYTimeLineVolume alloc] initWithContext:UIGraphicsGetCurrentContext()];
     timeLineVolumn.timeLineVolumnPositionModels = self.positionModels;
     timeLineVolumn.currentXWidth = HYStockChartTimeLineAboveViewMaxX-HYStockChartTimeLineAboveViewMinX;
@@ -137,5 +156,58 @@
     return positionArray;
 }
 
+- (void)timeLineAboveViewLongPressAboveLineModel:(HYTimeLineModel *)selectedModel selectPoint:(CGPoint)selectedPoint
+{
+
+    NSAssert(self.timeLineModels && self.xPositionArray && self.timeLineModels.count == self.xPositionArray.count, @"timeLineModels不能为空!");
+    //1.算y轴的单元值
+    HYTimeLineModel *firstModel = [self.timeLineModels firstObject];
+    __block CGFloat minVolume = firstModel.volume;
+    __block CGFloat maxVolume = firstModel.volume;
+    [self.timeLineModels enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        HYTimeLineModel *timeLineModel = (HYTimeLineModel *)obj;
+        if (timeLineModel.volume < minVolume) {
+            minVolume = timeLineModel.volume;
+        }
+        if (timeLineModel.volume > maxVolume) {
+            maxVolume = timeLineModel.volume;
+        }
+        if (timeLineModel.volume < 0) {
+            NSLog(@"%ld",timeLineModel.volume);
+        }
+    }];
+    
+    CGFloat minY = HYStockChartTimeLineBelowViewMinY;
+    CGFloat maxY = HYStockChartTimeLineBelowViewMaxY;
+    CGFloat yUnitValue = (maxVolume - minVolume)/(maxY-minY);
+    
+    CGFloat xPosition = selectedPoint.x;
+    CGFloat yPosition = (maxY - (selectedModel.volume - minVolume)/yUnitValue);
+    
+    CGPoint vSelectedPoint = CGPointMake(xPosition,yPosition);
+    
+    if (!self.maskView) {
+        _maskView = [YYTimeLineBelowMaskView new];
+        _maskView.backgroundColor = [UIColor clearColor];
+        [self addSubview:_maskView];
+        [_maskView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self);
+        }];
+    } else {
+        self.maskView.hidden = NO;
+    }
+
+    self.maskView.selectedModel = selectedModel;
+    self.maskView.selectedPoint = vSelectedPoint;
+    self.maskView.timeLineView = self;
+    [self.maskView setNeedsDisplay];
+
+}
+
+
+- (void)timeLineAboveViewLongPressDismiss
+{
+    self.maskView.hidden = YES;
+}
 
 @end

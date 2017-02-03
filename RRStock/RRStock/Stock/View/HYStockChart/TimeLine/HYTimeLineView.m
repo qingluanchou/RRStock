@@ -14,7 +14,9 @@
 #import "HYTimeLineAbovePositionModel.h"
 #import "UIColor+HYStockChart.h"
 #import "HYTimeLineLongPressProfileView.h"
+#import "HYTimeLineLongPressView.h"
 #import "HYBrokenLineLongPressProfileView.h"
+#import "HYBrokenLineLongPressView.h"
 #import "FiveRangeTableView.h"
 #import "TradeDetailTableView.h"
 
@@ -35,12 +37,18 @@
 
 @property (nonatomic,weak)TradeDetailTableView *tradeDetailView;
 
+@property (nonatomic,weak)UIButton *lastBtn;
+
 //水平线
 @property(nonatomic,strong) UIView *horizontalView;
 
 @property(nonatomic,strong) HYTimeLineLongPressProfileView *timeLineLongPressProfileView;
 
+@property(nonatomic,strong) HYTimeLineLongPressView *timeLineLongPressView;
+
 @property(nonatomic,strong) HYBrokenLineLongPressProfileView *brokenLineLongPressProfileView;
+
+@property(nonatomic,strong) HYBrokenLineLongPressView *brokenLineLongPressView;
 
 @end
 
@@ -65,6 +73,7 @@
     if (!_aboveView) {
         _aboveView = [HYTimeLineAboveView new];
         _aboveView.delegate = self;
+      //  _aboveView.delegate = self.belowView;
         [self.timeLineContainerView addSubview:_aboveView];
         [_aboveView mas_makeConstraints:^(MASConstraintMaker *make) {
             //make.top.left.right.equalTo(self.timeLineContainerView);
@@ -119,13 +128,28 @@
         _timeLineLongPressProfileView = [HYTimeLineLongPressProfileView timeLineLongPressProfileView];
         [self addSubview:_timeLineLongPressProfileView];
         [_timeLineLongPressProfileView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.mas_top);
+            make.bottom.equalTo(self.mas_top).offset(-10);
             make.left.right.equalTo(self);
-            make.height.equalTo(@(HYStockChartProfileViewHeight));
+            make.height.equalTo(@(30));
         }];
     }
     return _timeLineLongPressProfileView;
 }
+
+-(HYTimeLineLongPressView *)timeLineLongPressView
+{
+    if (!_timeLineLongPressView) {
+        _timeLineLongPressView = [HYTimeLineLongPressView timeLineLongPressProfileView];
+        [self addSubview:_timeLineLongPressView];
+        [_timeLineLongPressView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.mas_top).offset(-10);;
+            make.left.right.equalTo(self);
+            make.height.equalTo(@(30));
+        }];
+    }
+    return _timeLineLongPressView;
+}
+
 
 #pragma mark brokenLineLongPressProfileView的get方法
 -(HYBrokenLineLongPressProfileView *)brokenLineLongPressProfileView
@@ -141,6 +165,21 @@
     }
     return _brokenLineLongPressProfileView;
 }
+
+-(HYBrokenLineLongPressView *)brokenLineLongPressView
+{
+    if (!_brokenLineLongPressView) {
+        _brokenLineLongPressView = [HYBrokenLineLongPressView brokenLineLongPressProfileView];
+        [self addSubview:_brokenLineLongPressView];
+        [_brokenLineLongPressView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.mas_top).offset(-10);;
+            make.left.right.equalTo(self);
+            make.height.equalTo(@(30));
+        }];
+    }
+    return _brokenLineLongPressView;
+}
+
 
 #pragma mark - 模型设置方法
 #pragma mark aboveViewRatio设置方法
@@ -207,7 +246,8 @@
         [fiveRangeBtn setTitleColor:[UIColor whiteColor153] forState:UIControlStateNormal];
         fiveRangeBtn.tag = kBtnTag + 1;
         [fiveRangeBtn addTarget:self action:@selector(scrollTradeContentClick:) forControlEvents:UIControlEventTouchUpInside];
-        fiveRangeBtn.backgroundColor = [UIColor grayColor];
+        fiveRangeBtn.backgroundColor = [UIColor colorWithWhite:0.7 alpha:1.0];
+        self.lastBtn = fiveRangeBtn;
         [self.timeLineContainerView addSubview:fiveRangeBtn];
         [fiveRangeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(40, 16));
@@ -220,7 +260,7 @@
         [tradeDetailBtn setTitleColor:[UIColor whiteColor153] forState:UIControlStateNormal];
         tradeDetailBtn.titleLabel.font = [UIFont systemFontOfSize:12];
         tradeDetailBtn.tag = kBtnTag + 2;
-        tradeDetailBtn.backgroundColor = [UIColor grayColor];
+        tradeDetailBtn.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.0];
         //[fiveRangeBtn setba]
         [tradeDetailBtn addTarget:self action:@selector(scrollTradeContentClick:) forControlEvents:UIControlEventTouchUpInside];
         [self.timeLineContainerView addSubview:tradeDetailBtn];
@@ -244,6 +284,10 @@
 
 - (void)scrollTradeContentClick:(UIButton *)sender
 {
+    self.lastBtn.backgroundColor = [UIColor colorWithWhite:0.95 alpha:1.0];
+     sender.backgroundColor = [UIColor colorWithWhite:0.7 alpha:1.0];
+    self.lastBtn = sender;
+   
     NSInteger currentPosition = sender.tag - kBtnTag - 1;
     [UIView animateWithDuration:0.25 animations:^{
         self.tradeDetailView.transform = CGAffineTransformMakeTranslation(-100 * currentPosition, 0);
@@ -328,6 +372,15 @@
         self.brokenLineLongPressProfileView.hidden = YES;
     }
 }
+
+- (void)timeLineAboveViewLongPressDismiss
+{
+    self.timeLineLongPressProfileView.hidden = YES;
+    self.brokenLineLongPressProfileView.hidden = YES;
+    self.timeLineLongPressView.hidden = YES;
+    self.brokenLineLongPressView.hidden = YES;
+    self.belowView.maskView.hidden = YES;
+}
 /*
 -(void)event_longPressMethod:(UILongPressGestureRecognizer *)longPress
 {
@@ -407,12 +460,24 @@
     }
     if (self.centerViewType == HYStockChartCenterViewTypeTimeLine ) {
         self.timeLineLongPressProfileView.timeLineModel = timeLineModel;
-        self.timeLineLongPressProfileView.hidden = NO;
+        self.timeLineLongPressProfileView.hidden = YES;
+        self.timeLineLongPressView.timeLineModel = timeLineModel;
+        self.timeLineLongPressView.hidden = NO;
     }else
     {
         self.brokenLineLongPressProfileView.timeLineModel = timeLineModel;
-        self.brokenLineLongPressProfileView.hidden = NO;
+        self.brokenLineLongPressView.timeLineModel = timeLineModel;
+        self.brokenLineLongPressProfileView.hidden = YES;
+        self.brokenLineLongPressView.hidden = NO;
     }
 }
+
+
+- (void)timeLineAboveViewLongPressAboveLineModel:(HYTimeLineModel *)selectedModel selectPoint:(CGPoint)selectedPoint
+{
+    [self.belowView timeLineAboveViewLongPressAboveLineModel:selectedModel selectPoint:selectedPoint];
+    
+}
+
 
 @end

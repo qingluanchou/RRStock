@@ -65,17 +65,22 @@
     return _stockDefaultProfileView;
 }
 
+
+
 #pragma mark segmentView的get方法
 -(HYStockChartSegmentView *)segmentView
 {
     if (!_segmentView) {
         _segmentView = [[HYStockChartSegmentView alloc] init];
         _segmentView.delegate = self;
+        _segmentView.backgroundColor = [UIColor colorWithWhite:0.9 alpha:1.0];
         [self addSubview:_segmentView];
         [_segmentView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.bottom.left.equalTo(self);
-            make.width.equalTo(self).multipliedBy(0.9);
-            make.height.equalTo(@35);
+            //make.bottom.left.equalTo(self);
+            make.left.equalTo(self);
+            make.top.equalTo(self.stockDefaultProfileView.mas_bottom);
+            make.width.equalTo(self);
+            make.height.equalTo(@30);
         }];
     }
     return _segmentView;
@@ -89,8 +94,10 @@
         [self addSubview:_kLineView];
         [_kLineView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.equalTo(self);
-            make.top.equalTo(self.stockDefaultProfileView.mas_bottom);
-            make.bottom.equalTo(self.segmentView.mas_top);
+            //make.top.equalTo(self.stockDefaultProfileView.mas_bottom);
+            make.top.equalTo(self.segmentView.mas_bottom).offset(10);
+            //make.bottom.equalTo(self.segmentView.mas_top);
+            make.bottom.equalTo(self).offset(-10);
         }];
     }
     return _kLineView;
@@ -104,9 +111,14 @@
         _timeLineView.centerViewType = HYStockChartCenterViewTypeTimeLine;
         [self insertSubview:_timeLineView aboveSubview:self.stockDefaultProfileView];
         [_timeLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.right.equalTo(self);
+//            make.top.equalTo(self.stockDefaultProfileView.mas_bottom);
+//            make.bottom.equalTo(self.segmentView.mas_top);
             make.left.right.equalTo(self);
-            make.top.equalTo(self.stockDefaultProfileView.mas_bottom);
-            make.bottom.equalTo(self.segmentView.mas_top);
+            //make.top.equalTo(self.stockDefaultProfileView.mas_bottom);
+            make.top.equalTo(self.segmentView.mas_bottom).offset(10);
+            //make.bottom.equalTo(self.segmentView.mas_top);
+            make.bottom.equalTo(self).offset(-10);
         }];
     }
     return _timeLineView;
@@ -120,9 +132,14 @@
         _brokenLineView.centerViewType = HYStockChartCenterViewTypeBrokenLine;
         [self insertSubview:_brokenLineView aboveSubview:self.stockDefaultProfileView];
         [_brokenLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.right.equalTo(self);
+//            make.top.equalTo(self.stockDefaultProfileView.mas_bottom);
+//            make.bottom.equalTo(self.segmentView.mas_top);
             make.left.right.equalTo(self);
-            make.top.equalTo(self.stockDefaultProfileView.mas_bottom);
-            make.bottom.equalTo(self.segmentView.mas_top);
+            //make.top.equalTo(self.stockDefaultProfileView.mas_bottom);
+            make.top.equalTo(self.segmentView.mas_bottom).offset(10);
+            //make.bottom.equalTo(self.segmentView.mas_top);
+            make.bottom.equalTo(self).offset(-10);
         }];
     }
     return _brokenLineView;
@@ -154,7 +171,7 @@
     [HYStockChartGloablVariable setStockChineseName:stockChartProfileModel.ChineseName.length > 0 ? stockChartProfileModel.ChineseName : stockChartProfileModel.Name];
     [HYStockChartGloablVariable setStockSymbol:stockChartProfileModel.Symbol];
     [HYStockChartGloablVariable setStockType:stockChartProfileModel.stockType];
-    self.stockDefaultProfileView.profileModel = stockChartProfileModel;
+    //self.stockDefaultProfileView.profileModel = stockChartProfileModel;
 }
 
 #pragma mark dataSource的设置方法

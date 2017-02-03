@@ -101,6 +101,7 @@
 
 - (void)scrollTradeContentClick:(UIButton *)sender
 {
+    sender.backgroundColor = [UIColor colorWithWhite:0.8 alpha:1.0];
     NSInteger currentPosition = sender.tag - kBtnTag - 1;
     [UIView animateWithDuration:0.25 animations:^{
         self.tradeDetailView.transform = CGAffineTransformMakeTranslation(-100 * currentPosition, 0);

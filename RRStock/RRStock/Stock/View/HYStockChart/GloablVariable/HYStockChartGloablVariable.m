@@ -12,7 +12,7 @@
 /**
  *  K线图的宽度，默认20
  */
-static CGFloat HYStockChartKLineWidth = 12;
+static CGFloat HYStockChartKLineWidth = 6;
 
 /**
  *  K线图的间隔，默认1

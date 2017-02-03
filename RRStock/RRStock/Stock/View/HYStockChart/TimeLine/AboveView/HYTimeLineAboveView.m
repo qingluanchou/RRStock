@@ -119,7 +119,6 @@
     if(ABS(oldPositionX - location.x) < xUnitValue) return;
     
     oldPositionX = location.x;
-    //NSInteger startIndex = (NSInteger)(oldPositionX / (YYStockTimeLineViewVolumeGap + [YYStockVariable timeLineVolumeWidth]));
     NSInteger startIndex = [self getPositionWithOriginXPosition:oldPositionX];
     if (startIndex < 0) startIndex = 0;
     if (startIndex >= self.timeLineModels.count) startIndex = self.timeLineModels.count - 1;
@@ -140,6 +139,9 @@
     HYTimeLineAbovePositionModel *model = (HYTimeLineAbovePositionModel *)self.positionModels[startIndex];
     self.maskView.selectedPoint = model.currentPoint;
     self.maskView.timeLineView = self;
+    if (self.delegate && [self.delegate respondsToSelector:@selector(timeLineAboveViewLongPressAboveLineModel:selectPoint:)]) {
+        [self.delegate timeLineAboveViewLongPressAboveLineModel:self.timeLineModels[startIndex] selectPoint:model.currentPoint];
+    }
     [self setNeedsDisplay];
     [self.maskView setNeedsDisplay];
 }
@@ -165,11 +167,18 @@
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self hideTouchView];
     [[NSNotificationCenter defaultCenter] postNotificationName:CanAcceptTouchNotificationName object:@"0"];
+    
+    if (self.delegate && [self.delegate respondsToSelector:@selector(timeLineAboveViewLongPressDismiss)]) {
+        [self.delegate timeLineAboveViewLongPressDismiss];
+    }
 }
 
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [self hideTouchView];
     [[NSNotificationCenter defaultCenter] postNotificationName:CanAcceptTouchNotificationName object:@"0"];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(timeLineAboveViewLongPressDismiss)]) {
+        [self.delegate timeLineAboveViewLongPressDismiss];
+    }
 }
 
 
@@ -408,38 +417,26 @@
     NSMutableArray *colorArray = [NSMutableArray array];
     NSInteger index = 0;
 
-    NSMutableArray *xChouZuoBiaoArray = [NSMutableArray array];
+    NSArray *xChouZuoBiaoArray = [NSArray array];
     //设置一下时间
     if (self.centerViewType == HYStockChartCenterViewTypeBrokenLine) {
-     //   self.firstTimeLabel.text = [firstModel.currentDate substringToIndex:5];
-        HYTimeLineModel *middleModel = [self.timeLineModels objectAtIndex:self.timeLineModels.count/2];
-      //  self.secondTimeLabel.text = [middleModel.currentDate substringToIndex:5];
-        HYTimeLineModel *lastModel = [self.timeLineModels lastObject];
-       // self.thirdTimeLabel.text = [lastModel.currentDate substringToIndex:5];
         self.firstTimeLabel.hidden = YES;
         self.secondTimeLabel.hidden = YES;
         self.thirdTimeLabel.hidden = YES;
         
-        [xChouZuoBiaoArray addObject:firstModel];
-        
-        HYTimeLineModel *twoModel = [self.timeLineModels objectAtIndex:self.timeLineModels.count * 2 / 5];
-        [xChouZuoBiaoArray addObject:twoModel];
-        HYTimeLineModel *threeModel = [self.timeLineModels objectAtIndex:self.timeLineModels.count * 3 / 5];
-        [xChouZuoBiaoArray addObject:threeModel];
-        HYTimeLineModel *fourModel = [self.timeLineModels objectAtIndex:self.timeLineModels.count * 4 / 5];
-        [xChouZuoBiaoArray addObject:fourModel];
-        [xChouZuoBiaoArray addObject:lastModel];
-        
+        xChouZuoBiaoArray = [self private_findTradeDateWithModels:self.timeLineModels];
         
         //添加分时线宽度
-        CGContextSetLineWidth(context, HYStockChartTimeLineGridWidth);
+        CGContextSetLineWidth(context, 0.25);
         //添加分时线颜色
         CGContextSetStrokeColorWithColor(context, [UIColor gridLineColor].CGColor);
+        
         for (int i = 0; i < 4; i ++)
         {
             CGFloat xzhouriqi = (HYStockChartTimeLineAboveViewMaxX-HYStockChartTimeLineAboveViewMinX) * (i + 1 ) / 5.0;
             CGContextMoveToPoint(context,xzhouriqi, 0);
             CGContextAddLineToPoint(context, xzhouriqi, maxY);
+            
             CGContextStrokePath(context);
         }
         
@@ -543,6 +540,31 @@
     
     return positionArray;
 }
+
+
+#pragma mark 找出某个月的第一个交易日
+-(NSArray *)private_findTradeDateWithModels:(NSArray *)sortedTimeLineModels;
+{
+    __block HYTimeLineModel *comparingModel = [sortedTimeLineModels firstObject];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"MM/dd/yyyy";
+    NSMutableArray *fiveDayList = [NSMutableArray array];
+    [fiveDayList addObject:comparingModel];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    [sortedTimeLineModels enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        HYTimeLineModel *timeLineModel = (HYTimeLineModel *)obj;
+        NSDate *compaingDate = [formatter dateFromString:comparingModel.currentDate];
+        NSDate *objDate = [formatter dateFromString:timeLineModel.currentDate];
+        NSDateComponents *compingComponent = [calendar components:NSCalendarUnitMonth | NSCalendarUnitDay fromDate:compaingDate];
+        NSDateComponents *objComponent = [calendar components:NSCalendarUnitMonth | NSCalendarUnitDay fromDate:objDate];
+        if (compingComponent.month != objComponent.month || compingComponent.day != objComponent.day) {
+            comparingModel = timeLineModel;
+            [fiveDayList addObject:timeLineModel];
+        }
+    }];
+    return  fiveDayList;
+}
+
 
 #pragma mark - **************** 分时图右侧坐标值
 - (void)drawRightMarkAtt:(CGContextRef)context maxPrice:(CGFloat)maxPrice midPrice:(CGFloat)midPrice minPrice:(CGFloat)minPrice
