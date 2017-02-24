@@ -1074,6 +1074,8 @@
 				TargetAttributes = {
 					E35E2D731DE6E7A600DF4DF7 = {
 						CreatedOnToolsVersion = 7.2;
+						DevelopmentTeam = 95YAZEXCL6;
+						ProvisioningStyle = Automatic;
 					};
 					E35E2D8F1DE6E7A600DF4DF7 = {
 						CreatedOnToolsVersion = 7.2;
@@ -1389,6 +1391,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 95YAZEXCL6;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = RRStock/RRStock_PrefixHeader.pch;
 				INFOPLIST_FILE = RRStock/Info.plist;
@@ -1403,6 +1407,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 95YAZEXCL6;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = RRStock/RRStock_PrefixHeader.pch;
 				INFOPLIST_FILE = RRStock/Info.plist;
