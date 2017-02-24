@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E35CA4401DE71758003F46E6 /* navigationBarBg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E35CA43F1DE71758003F46E6 /* navigationBarBg@2x.png */; };
+		E35CA4421DE7177B003F46E6 /* compose_photo_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E35CA4411DE7177B003F46E6 /* compose_photo_close@2x.png */; };
 		E35E2D791DE6E7A600DF4DF7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E35E2D781DE6E7A600DF4DF7 /* main.m */; };
 		E35E2D7C1DE6E7A600DF4DF7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E35E2D7B1DE6E7A600DF4DF7 /* AppDelegate.m */; };
 		E35E2D7F1DE6E7A600DF4DF7 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E35E2D7E1DE6E7A600DF4DF7 /* MasterViewController.m */; };
@@ -144,6 +146,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E35CA43F1DE71758003F46E6 /* navigationBarBg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navigationBarBg@2x.png"; sourceTree = "<group>"; };
+		E35CA4411DE7177B003F46E6 /* compose_photo_close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "compose_photo_close@2x.png"; sourceTree = "<group>"; };
 		E35E2D741DE6E7A600DF4DF7 /* RRStock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RRStock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E35E2D781DE6E7A600DF4DF7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		E35E2D7A1DE6E7A600DF4DF7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -438,8 +442,10 @@
 		E35E2D771DE6E7A600DF4DF7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E35CA43F1DE71758003F46E6 /* navigationBarBg@2x.png */,
 				E35E2F271DE7026B00DF4DF7 /* test6.gif */,
 				E35E2F251DE7025600DF4DF7 /* test8.gif */,
+				E35CA4411DE7177B003F46E6 /* compose_photo_close@2x.png */,
 				E35E2D781DE6E7A600DF4DF7 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -1116,6 +1122,7 @@
 				E35E2E931DE6E7D800DF4DF7 /* TimeLine.plist in Resources */,
 				E35E2F281DE7026B00DF4DF7 /* test6.gif in Resources */,
 				E35E2EB21DE6E7D800DF4DF7 /* HYStoctDefaultProfileView.xib in Resources */,
+				E35CA4421DE7177B003F46E6 /* compose_photo_close@2x.png in Resources */,
 				E35E2E871DE6E7D800DF4DF7 /* FiveDaysLine.plist in Resources */,
 				E35EBC5F1E0508400047E04F /* TimeLineLongPressView.xib in Resources */,
 				E35EBC6C1E0519120047E04F /* kLineLongPressView.xib in Resources */,
